@@ -5,29 +5,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts
 {
   public class TimedSpinner : MonoBehaviour, ITimedAction
   {
-    float angleBetweenPoints(Vector2 position1, Vector2 position2)
+    Vector2 previousMousePosition;
+
+    void Update()
     {
-      Vector2 fromLine = position2 - position1;
-      Vector2 toLine = new Vector2(1, 0);
-
-      float angle = Vector2.Angle(fromLine, toLine);
-
-      Vector3 cross = Vector3.Cross(fromLine, toLine);
-
-      // did we wrap around?
-      if (cross.z > 0)
+      if (!Input.GetMouseButton(0))
       {
-        angle = 360f - angle;
+        return;
       }
 
-      return angle;
+      //This is horribly expensive but its a game jam so :shrug:
+      PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+      pointerEventData.position = Input.mousePosition;
+
+      List<RaycastResult> raycastResultsList = new List<RaycastResult>();
+      EventSystem.current.RaycastAll(pointerEventData, raycastResultsList);
+
+      foreach (var raycast in raycastResultsList)
+      {
+        if (raycast.gameObject.GetComponent<TimedSpinner>() == this)
+        {
+          UpdateSpinnerPosition();
+        }
+      }
     }
 
+    private void UpdateSpinnerPosition()
+    {
+      Vector2 mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+      Vector2 centerBallPosition = new Vector2(transform.position.x, transform.position.y);
+
+      Vector2 oldMouseVector = previousMousePosition - centerBallPosition;
+      Vector2 currentMouseVector = mousePosition - centerBallPosition;
+
+      var angleOfRotation = Vector3.SignedAngle(oldMouseVector, currentMouseVector, Vector3.forward);
+
+      transform.Rotate(Vector3.forward, angleOfRotation);
+
+      previousMousePosition = mousePosition;
+    }
     public IEnumerator StartAction()
     {
       throw new NotImplementedException();
