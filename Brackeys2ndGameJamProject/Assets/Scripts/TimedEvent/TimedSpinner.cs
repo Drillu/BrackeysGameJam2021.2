@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScorableAction;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-  public class TimedSpinner : TimedEvent
+  public class TimedSpinner : TimedEvent, IScorableAction
   {
     [SerializeField]
     Slider completionSlider = null;
@@ -59,7 +60,6 @@ namespace Assets.Scripts
       {
         if (raycast.gameObject.GetComponent<TimedSpinner>() == this)
         {
-          Debug.Log("Here!");
           UpdateSpinnerPosition();
         }
       }
@@ -90,9 +90,11 @@ namespace Assets.Scripts
       yield return null;
     }
 
-    public override int EvaluatePoints()
+    public override Scores.Scores EvaluateScore()
     {
-      throw new NotImplementedException();
+      // SS if the spin was completed
+      return Scores.ScoreHelpers.GetScoreForPercentageAmount(Math.Abs(totalRotationSoFar) / (float)completionRotationAmount);
+
     }
 
     protected override void updateTimerVisuals(float timeElapsed)

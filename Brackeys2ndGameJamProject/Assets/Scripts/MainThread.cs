@@ -17,9 +17,7 @@ namespace Assets.Scenes
 
     private List<string> validKeys = new List<string> { "a", "s", "d", "f" };
 
-    private int score = 0;
-
-    private IEnumerator CurrentLevel = null;
+    List<ITimedAction> actionQueue = new List<ITimedAction>();
 
     public IEnumerator Start()
     {
@@ -33,15 +31,18 @@ namespace Assets.Scenes
       while (true)
       {
         var timedSpinner = Instantiate(timedSpinnerPrototype, transform);
-        timedSpinner.instantiateSpinner(3000, 10f);
+        timedSpinner.instantiateSpinner(3000, 2f);
 
         timedSpinner.StartAction();
+
         while (!timedSpinner.Resolved)
         {
           yield return null;
         }
 
         StartCoroutine(timedSpinner.AnimateThenDestroySelf());
+        Debug.Log(timedSpinner.EvaluateScore().ToString());
+        yield return new WaitForSeconds(2f);
         //var buttonPress = Instantiate(buttonPressPrototype, transform);
         //var index = Random.Range(0, validKeys.Count);
 
@@ -54,6 +55,40 @@ namespace Assets.Scenes
         //Destroy(buttonPress.gameObject);
       }
     }
+
+    private void generateSpinners(float timeFrame, float requiredRotation, float duration, float maxTimeBetween = 0f)
+    {
+      var tempTime = 0;
+      int totalAdded = 0;
+      while (tempTime < timeFrame)
+      {
+        totalAdded += 1;
+        var timedSpinner = Instantiate(timedSpinnerPrototype, transform);
+        timedSpinner.instantiateSpinner(3000, 2f);
+        actionQueue.Add(timedSpinner);
+      }
+    }
+
+    // TODO we probably eventually want to support overlapping press keys, will need a quick algorithm to make 
+    // sure we don't generate the same key in the same timeframe
+    private void generateKeys(float timeFrame, float duration)
+    {
+      var tempTime = 0;
+      while (tempTime < timeFrame)
+      {
+        actionQueue.Add(Instantiate(timedSpinnerPrototype, transform));
+      }
+    }
+
+    //private IEnumerator runSpinners(float duration)
+    //{
+    //  float currentTime = 0f;
+    //  while (currentTime < duration)
+    //  {
+
+    //  }
+
+    //}
 
   }
 }

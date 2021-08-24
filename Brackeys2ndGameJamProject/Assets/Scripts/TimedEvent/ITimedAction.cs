@@ -13,8 +13,5 @@ public interface ITimedAction
   public void StartAction();
 
   public IEnumerator AnimateThenDestroySelf();
-
-  //Assumedly this either has more parameters or the inherited members use class variables to return something.
-  public int EvaluatePoints();
 }
 

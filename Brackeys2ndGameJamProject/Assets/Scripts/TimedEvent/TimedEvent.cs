@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -20,7 +15,7 @@ namespace Assets.Scripts
 
     public abstract IEnumerator AnimateThenDestroySelf();
 
-    public abstract int EvaluatePoints();
+    public abstract Scores.Scores EvaluateScore();
 
     public void Resolve()
     {

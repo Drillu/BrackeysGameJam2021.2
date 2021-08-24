@@ -45,10 +45,11 @@ namespace timedButton
 
     public override IEnumerator AnimateThenDestroySelf()
     {
-      throw new NotImplementedException();
+      Destroy(this.gameObject);
+      yield return null;
     }
 
-    public override int EvaluatePoints()
+    public override Scores.Scores EvaluateScore()
     {
       throw new NotImplementedException();
     }

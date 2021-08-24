@@ -9,27 +9,28 @@ namespace Scores
     A,
     B,
     C,
+    F
   }
 
   public static class ScoreHelpers
   {
     // Simple helper to return what the user's current score should be based on points.
-    public static Scores GetScoreForPointAmount(int points, int maxPoints)
+    public static Scores GetScoreForPercentageAmount(float percentage)
     {
-      var percentage = points / (float) maxPoints;
-
       switch (percentage)
       {
-        case var s when (s == 1):
-          return Scores.C;
+        case var s when (s >= 1):
+          return Scores.SS;
         case var s when (s > .95):
           return Scores.S;
         case var s when (s > .9):
           return Scores.A;
         case var s when (s > .8):
           return Scores.B;
-        default:
+        case var s when (s > .5):
           return Scores.C;
+        default:
+          return Scores.F;
       }
     }
 
@@ -47,6 +48,8 @@ namespace Scores
           return "B";
         case Scores.C:
           return "C";
+        case Scores.F:
+          return "F";
       }
 
       Debug.LogWarning("No valid score string found!");
