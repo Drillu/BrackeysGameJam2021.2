@@ -15,6 +15,8 @@ namespace Assets.Scenes
 
     private int score = 0;
 
+    private IEnumerator CurrentLevel = null;
+
     public IEnumerator Start()
     {
       //Ideally this gets called after we..you know actually start the game but here is good for now

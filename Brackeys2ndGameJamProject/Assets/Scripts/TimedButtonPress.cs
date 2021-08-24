@@ -51,6 +51,12 @@ namespace timedButton
       }
     }
 
+    //
+    public IEnumerator AnimateThenDestroySelf()
+    {
+      yield return null;
+    }
+
 
     public int EvaluatePoints()
     {

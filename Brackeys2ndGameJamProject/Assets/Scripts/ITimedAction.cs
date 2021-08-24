@@ -6,8 +6,10 @@ using UnityEngine;
 // Summary : The base class of any "you gotta click this" or "you gotta press this button" action
 public interface ITimedAction
 {
-  // Expecting that this will be timed, so making it IEnumerable
   public IEnumerator StartAction();
+
+  public IEnumerator AnimateThenDestroySelf();
+
 
   // Might 
   public void Resolve(ResolveState resolveState);
