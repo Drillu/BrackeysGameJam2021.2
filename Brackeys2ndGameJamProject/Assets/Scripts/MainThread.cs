@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using timedButton;
 using UnityEngine;
@@ -10,6 +11,9 @@ namespace Assets.Scenes
   {
     [SerializeField]
     private TimedButtonPress buttonPressPrototype = null;
+
+    [SerializeField]
+    private TimedSpinner timedSpinnerPrototype = null;
 
     private List<string> validKeys = new List<string> { "a", "s", "d", "f" };
 
@@ -28,17 +32,28 @@ namespace Assets.Scenes
       //Prototype of level 1
       while (true)
       {
-        var buttonPress = Instantiate(buttonPressPrototype, transform);
-        var index = Random.Range(0, validKeys.Count);
+        var timedSpinner = Instantiate(timedSpinnerPrototype, transform);
+        timedSpinner.instantiateSpinner(3000, 10f);
 
-        var keyToPress = validKeys[index];
-        buttonPress.instantiateInstance(1f, keyToPress);
-        buttonPress.gameObject.SetActive(true);
+        timedSpinner.StartAction();
+        while (!timedSpinner.Resolved)
+        {
+          yield return null;
+        }
 
-        yield return buttonPress.StartAction();
+        StartCoroutine(timedSpinner.AnimateThenDestroySelf());
+        //var buttonPress = Instantiate(buttonPressPrototype, transform);
+        //var index = Random.Range(0, validKeys.Count);
 
-        Destroy(buttonPress.gameObject);
+        //var keyToPress = validKeys[index];
+        //buttonPress.instantiateInstance(1f, keyToPress);
+        //buttonPress.gameObject.SetActive(true);
+
+        //yield return buttonPress.StartAction();
+
+        //Destroy(buttonPress.gameObject);
       }
     }
+
   }
 }

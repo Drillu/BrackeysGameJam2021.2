@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 4238952410394273747}
   - component: {fileID: 4238952410394273746}
   m_Layer: 5
-  m_Name: KeyPress
+  m_Name: TimedKeyPress
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
