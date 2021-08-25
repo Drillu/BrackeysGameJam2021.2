@@ -6,17 +6,25 @@ using System.Collections.Generic;
 using timedButton;
 using UnityEngine;
 using System.Linq;
+using System;
 
 namespace Assets.Scenes
 {
   // This is inteded to be the base class for executing things that are happening within the game.
   public class MainThread : MonoBehaviour
   {
+    [Serializable]
+    private struct KeySlot
+    {
+      public string key;
+      public Transform slot;
+    }
+
     [SerializeField]
     private TimedButtonPress keyPressPrototype = null;
 
     [SerializeField]
-    Transform buttonContainer = null;
+    List<KeySlot> buttonContainers = null;
 
     [SerializeField]
     private TimedSpinner timedSpinnerPrototype = null;
@@ -74,15 +82,9 @@ namespace Assets.Scenes
     {
       var level1StartTime = 0;
       var level1Duration = 60;
-      //generateStartOfGame
+
       generateSpinners(level1StartTime, level1Duration, 3000, 5);
       generateKeys(level1StartTime, level1Duration, 1);
-
-      //var level2StartTime = 70;
-      //var level2Duration = 60;
-      //generateSpinners(level1StartTime, level1Duration, 1020, 3);
-      //generateKeys(level1StartTime, level1Duration, 1);
-
     }
 
     private void generateSpinners(float startTime, float timeFrame, float requiredRotation, float duration, float maxTimeBetween = 0f)
@@ -97,7 +99,7 @@ namespace Assets.Scenes
         timedSpinner.StartTime = tempTime;
         timedSpinner.instantiateSpinner(requiredRotation, duration);
         timedSpinner.gameObject.SetActive(false);
-        tempTime += duration + maxTimeBetween + Random.Range(0, 3);
+        tempTime += duration + maxTimeBetween + generateRandomTimeAmount(0, 3);
         actionQueue.Add(timedSpinner);
       }
     }
@@ -109,12 +111,18 @@ namespace Assets.Scenes
       float tempTime = startTime;
       while (tempTime < timeFrame)
       {
-        var timedKeyEvent = Instantiate(keyPressPrototype, buttonContainer);
+        var randomNumber = UnityEngine.Random.Range(0, validKeys.Count);
+        var randomKey = validKeys[randomNumber];
+
+        var container = buttonContainers.FirstOrDefault(container => container.key == randomKey).slot;
+
+        var timedKeyEvent = Instantiate(keyPressPrototype, container);
         timedKeyEvent.StartTime = tempTime;
-        var randomKey = Random.Range(0, validKeys.Count);
-        timedKeyEvent.instantiateInstance(duration, validKeys[randomKey]);
+
+        timedKeyEvent.instantiateInstance(duration, randomKey);
+
         timedKeyEvent.gameObject.SetActive(false);
-        tempTime += duration + Random.Range(0, 2);
+        tempTime += duration + .1f;
         actionQueue.Add(timedKeyEvent);
       }
     }
@@ -136,6 +144,14 @@ namespace Assets.Scenes
       }
 
       StartCoroutine(action.AnimateThenDestroySelf());
+    }
+
+    public static float generateRandomTimeAmount(float minimumInSeconds, float maximumInSeconds)
+    {
+      //Convert seconds to ms, then grab a random number in ms
+      var random = UnityEngine.Random.Range(minimumInSeconds * 1000, maximumInSeconds * 1000);
+      //Convert back from ms to seconds
+      return (float)random / 1000f;
     }
   }
 }

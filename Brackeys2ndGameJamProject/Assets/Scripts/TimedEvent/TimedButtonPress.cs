@@ -40,7 +40,13 @@ namespace timedButton
     protected override void updateTimerVisuals(float timeElapsed)
     {
       var maxScale = 2f;
-      collapsingRing.rectTransform.localScale = Vector3.one * (maxScale - Mathf.Clamp(timeElapsed / maxDuration, 0, 1));
+      float collapsePercentage = Mathf.Clamp(timeElapsed / maxDuration, 0, 1);
+      collapsingRing.rectTransform.localScale = Vector3.one * (maxScale - collapsePercentage);
+
+      //Fade the circle
+      var tempColor = collapsingRing.color;
+      tempColor.a = maxScale - collapsePercentage;
+      collapsingRing.color = tempColor;
     }
 
     public override IEnumerator AnimateThenDestroySelf()
