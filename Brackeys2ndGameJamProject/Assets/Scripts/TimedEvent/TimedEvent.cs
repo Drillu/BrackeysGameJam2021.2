@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace timedEvent
 {
   public abstract class TimedEvent : MonoBehaviour, ITimedAction
   {
@@ -15,6 +15,7 @@ namespace Assets.Scripts
 
     protected float maxDuration = 5f;
 
+    protected float timeElapsed = 0f;
     public abstract IEnumerator AnimateThenDestroySelf();
 
     public abstract Scores.Scores EvaluateScore();
@@ -46,13 +47,13 @@ namespace Assets.Scripts
 
     public virtual IEnumerator tickDown()
     {
-      float timeElapsed = 0f;
       while (timeElapsed < maxDuration && !Resolved)
       {
         updateTimerVisuals(timeElapsed);
         timeElapsed += Time.deltaTime;
         yield return null;
       }
+      updateTimerVisuals(timeElapsed);
 
       resolved = true;
     }

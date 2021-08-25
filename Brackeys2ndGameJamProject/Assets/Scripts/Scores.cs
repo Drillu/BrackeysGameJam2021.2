@@ -77,5 +77,49 @@ namespace Scores
       Debug.LogWarning("No valid score string found!");
       return "";
     }
+
+    public static string ScoreToFlavorString(Scores score)
+    {
+      switch (score)
+      {
+        case Scores.SS:
+          return "Perfect!";
+        case Scores.S:
+          return "Great!";
+        case Scores.A:
+          return "Good";
+        case Scores.B:
+          return "Okay";
+        case Scores.C:
+          return "Oof";
+        case Scores.F:
+          return "Miss";
+      }
+
+      Debug.LogWarning("No valid score string found!");
+      return "";
+    }
+
+    public static Color ScoreToColor(Scores score)
+    {
+      switch (score)
+      {
+        case Scores.SS:
+          return new Color(.9f, .26f, .85f); //Purple
+        case Scores.S:
+          return new Color(.2f, .9f, .27f); //Green
+        case Scores.A:
+          return new Color(.38f, .38f, 1f); //Blue
+        case Scores.B:
+          return new Color(.86f, .81f, .39f); //Yellow
+        case Scores.C:
+          return new Color(.88f, .60f, .25f); //Orange
+        case Scores.F:
+          return new Color(.6f, .15f, .01f); //Red
+        default:
+          return new Color(1, 1, 1); //White
+      }
+
+    }
   }
 }

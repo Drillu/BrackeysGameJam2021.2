@@ -7,6 +7,7 @@ using timedButton;
 using UnityEngine;
 using System.Linq;
 using System;
+using timedSpinner;
 
 namespace Assets.Scenes
 {
@@ -119,7 +120,8 @@ namespace Assets.Scenes
         var timedKeyEvent = Instantiate(keyPressPrototype, container);
         timedKeyEvent.StartTime = tempTime;
 
-        timedKeyEvent.instantiateInstance(duration, randomKey);
+        //For now just giving it an arbitrary offset time, to see how it feels
+        timedKeyEvent.instantiateInstance(duration, duration - 0.2f, randomKey);
 
         timedKeyEvent.gameObject.SetActive(false);
         tempTime += duration + .1f;
