@@ -17,6 +17,9 @@ namespace Assets.Scripts
     Slider completionSlider = null;
 
     [SerializeField]
+    Slider timeLeftSlider = null;
+
+    [SerializeField]
     Transform spinner = null;
 
     Vector2 previousMousePosition;
@@ -100,6 +103,7 @@ namespace Assets.Scripts
     protected override void updateTimerVisuals(float timeElapsed)
     {
       completionSlider.value = Math.Abs(totalRotationSoFar) / (float)completionRotationAmount;
+      timeLeftSlider.value = timeElapsed / maxDuration;
     }
   }
 }

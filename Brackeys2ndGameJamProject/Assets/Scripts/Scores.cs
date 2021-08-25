@@ -34,6 +34,28 @@ namespace Scores
       }
     }
 
+    public static int ScoreToInt(Scores score)
+    {
+      switch (score)
+      {
+        case Scores.SS:
+          return 300;
+        case Scores.S:
+          return 250;
+        case Scores.A:
+          return 200;
+        case Scores.B:
+          return 150;
+        case Scores.C:
+          return 100;
+        case Scores.F:
+          return 0;
+      }
+
+      Debug.LogWarning("No valid score int found!");
+      return 0;
+    }
+
     public static string ScoreToString(Scores score)
     {
       switch (score)

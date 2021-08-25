@@ -10,6 +10,8 @@ public interface ITimedAction
 
   public bool Resolved { get; }
 
+  public float StartTime { get; set; }
+
   public void StartAction();
 
   public IEnumerator AnimateThenDestroySelf();

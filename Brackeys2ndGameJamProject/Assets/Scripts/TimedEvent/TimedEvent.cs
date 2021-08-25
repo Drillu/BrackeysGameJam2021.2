@@ -11,6 +11,8 @@ namespace Assets.Scripts
     public bool Resolved => resolved;
     protected bool resolved = false;
 
+    public float StartTime { get; set; }
+
     protected float maxDuration = 5f;
 
     public abstract IEnumerator AnimateThenDestroySelf();
@@ -36,6 +38,7 @@ namespace Assets.Scripts
     public virtual void StartAction()
     {
       started = true;
+      gameObject.SetActive(true);
       StartCoroutine(tickDown());
     }
 
