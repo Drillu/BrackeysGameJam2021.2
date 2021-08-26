@@ -64,7 +64,7 @@ namespace Assets.Scenes
       // Level 1 (Introduction to the keys!)
       curtainBlockingEvent.instantiateCurtainEvent(1, true, false);
       yield return curtainBlockingEvent.RunEvent();
-      generateKeys(level1StartTime, level1Duration, 1.5f, 1);
+      generateKeys(level1StartTime, level1Duration, 1f, 1);
       yield return RunLevel();
 
       var level2StartTime = 0;
@@ -145,7 +145,7 @@ namespace Assets.Scenes
         timedKeyEvent.ScoreModifier = scoreModifier;
 
         //For now just giving it an arbitrary offset time, to see how it feels
-        timedKeyEvent.instantiateInstance(duration, (3 * duration / 4f), randomKey);
+        timedKeyEvent.instantiateInstance(duration, randomKey);
 
         timedKeyEvent.gameObject.SetActive(false);
         tempTime += duration + .1f;

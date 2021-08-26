@@ -41,11 +41,11 @@ namespace timedButton
 
     public float ScoreModifier { get; set; }
 
-    public void instantiateInstance(float maxDuration, float targetTime, string key)
+    public void instantiateInstance(float maxDuration, string key)
     {
       this.maxDuration = maxDuration;
       this.key = key;
-      this.targetTime = targetTime;
+      this.targetTime = (3 * maxDuration / 4f);
       keyValueText.text = key;
     }
 
@@ -66,12 +66,12 @@ namespace timedButton
     {
       // Restrictions:
       // Needs to be '1' when timeElapsed == targetTime
-      float collapsePercentage = Mathf.Clamp(targetTime / timeElapsed, 0, 3.5f);
+      float collapsePercentage = Mathf.Clamp(targetTime / timeElapsed, 0, 4f);
       collapsingRing.rectTransform.localScale = Vector3.one * (collapsePercentage);
 
       //Fade the circle
       var tempColor = collapsingRing.color;
-      tempColor.a = timeElapsed / maxDuration;
+      tempColor.a = 0.8f * timeElapsed / maxDuration;
       collapsingRing.color = tempColor;
     }
 
