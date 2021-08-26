@@ -64,14 +64,14 @@ namespace timedButton
 
     protected override void updateTimerVisuals(float timeElapsed)
     {
-      var maxScale = 3f;
-      var shrinkScale = 2f;
-      float collapsePercentage = Mathf.Clamp(timeElapsed / targetTime, 0, 1);
-      collapsingRing.rectTransform.localScale = Vector3.one * (maxScale - (shrinkScale * collapsePercentage));
+      // Restrictions:
+      // Needs to be '1' when timeElapsed == targetTime
+      float collapsePercentage = Mathf.Clamp(targetTime / timeElapsed, 0, 3.5f);
+      collapsingRing.rectTransform.localScale = Vector3.one * (collapsePercentage);
 
       //Fade the circle
       var tempColor = collapsingRing.color;
-      tempColor.a = 0.8f * collapsePercentage;
+      tempColor.a = timeElapsed / maxDuration;
       collapsingRing.color = tempColor;
     }
 

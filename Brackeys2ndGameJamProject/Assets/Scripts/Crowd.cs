@@ -12,17 +12,24 @@ namespace Assets.Scenes
     [SerializeField]
     Animator crowdAnimator;
 
+    MainThread mainThread = null;
+    int cachedVersion = -1;
+
     public void Start()
     {
       // FindObjectOfType is horrible performance wise and this would normally be handled by some
       // singleton management system but.. game jam so :shrug:
-      var mainThread = FindObjectOfType<MainThread>();
+      mainThread = FindObjectOfType<MainThread>();
+      cachedVersion = mainThread.ScoreVersion;
     }
 
     public void Update()
     {
-      //ScoreManager.GetScore();
-      //Animator.SetBool()
+      if (mainThread.ScoreVersion != cachedVersion)
+      {
+        // Set it to something here, not sure what the states will be but 
+        //crowdAnimator.SetFloat()
+      }
     }
   }
 }

@@ -8,6 +8,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using timedSpinner;
+using blockingEvent;
 
 namespace Assets.Scenes
 {
@@ -33,62 +34,80 @@ namespace Assets.Scenes
     [SerializeField]
     Transform spinnerContainer = null;
 
+    [SerializeField]
+    CurtainBlockingEvent curtainBlockingEvent = null;
+
     private List<string> validKeys = new List<string> { "a", "s", "d", "f" };
 
     private int totalPossibleScore = 0;
     private int currentScore = 0;
 
     public Scores.Scores CurrentScore => Scores.ScoreHelpers.GetScoreForPercentageAmount(currentScore / totalPossibleScore);
+    public int ScoreVersion { get; private set; }
 
     List<ITimedAction> actionQueue = new List<ITimedAction>();
 
     bool started = false;
+    bool blocked = false;
 
     ITimedAction nextAction = null;
 
-    float timePassed = 0f;
-
-    public void Start()
+    public IEnumerator Start()
     {
-      populateGameFlow();
-      actionQueue = actionQueue.OrderBy(item => item.StartTime).ToList();
-      started = true;
+      yield return RunGame();
     }
 
-    public void Update()
-    {
-      if (!started)
-      {
-        return;
-      }
-
-      timePassed += Time.deltaTime;
-      if (nextAction == null)
-      {
-        if (actionQueue.Count > 0)
-        {
-          nextAction = actionQueue.PopAt(0);
-        }
-        else
-        {
-          return;
-        }
-      }
-
-      if (nextAction.StartTime <= timePassed)
-      {
-        StartCoroutine(StartTimedAction(nextAction));
-        nextAction = null;
-      }
-    }
-
-    private void populateGameFlow()
+    private IEnumerator RunGame()
     {
       var level1StartTime = 0;
-      var level1Duration = 60;
+      var level1Duration = 30;
+      // Level 1 (Introduction to the keys!)
+      curtainBlockingEvent.instantiateCurtainEvent(1, true, false);
+      yield return curtainBlockingEvent.RunEvent();
+      generateKeys(level1StartTime, level1Duration, 1.5f, 1);
+      yield return RunLevel();
 
-      generateSpinners(level1StartTime, level1Duration, 3000, 5, .2f);
-      generateKeys(level1StartTime, level1Duration, 1, 1);
+      var level2StartTime = 0;
+      var level2Duration = 30;
+      // Level 2 (Introduction to the spinner!)
+      curtainBlockingEvent.instantiateCurtainEvent(2, true, false);
+      yield return curtainBlockingEvent.RunEvent();
+      generateKeys(level2StartTime, level2Duration, .5f, 1);
+      yield return RunLevel();
+      //generateSpinners(level1StartTime, level1Duration, 3000, 5, .2f);
+      // Level 3 (Heating up the spinner + button difficulty a bit!)
+    }
+
+    // Takes the current actionQueue and runs each item inside of it according to how much time has passed.
+    private IEnumerator RunLevel()
+    {
+      actionQueue = actionQueue.OrderBy(item => item.StartTime).ToList();
+      nextAction = actionQueue.Count > 0 ? actionQueue.PopAt(0) : null;
+      float timePassed = 0f;
+      ITimedAction lastAction = null;
+
+      while (nextAction != null)
+      {
+        if (nextAction.StartTime <= timePassed)
+        {
+          StartCoroutine(StartTimedAction(nextAction));
+          lastAction = nextAction;
+          nextAction = actionQueue.Count > 0 ? actionQueue.PopAt(0) : null;
+        }
+
+        timePassed += Time.deltaTime;
+        yield return null;
+      }
+
+      if (lastAction == null)
+      {
+        yield break;
+      }
+
+      while (!lastAction.Resolved)
+      {
+        yield return null;
+      }
     }
 
     private void generateSpinners(float startTime, float timeFrame, float requiredRotation, float duration, float scoreModifier, float maxTimeBetween = 0f)
@@ -126,7 +145,7 @@ namespace Assets.Scenes
         timedKeyEvent.ScoreModifier = scoreModifier;
 
         //For now just giving it an arbitrary offset time, to see how it feels
-        timedKeyEvent.instantiateInstance(duration, duration - 0.2f, randomKey);
+        timedKeyEvent.instantiateInstance(duration, (3 * duration / 4f), randomKey);
 
         timedKeyEvent.gameObject.SetActive(false);
         tempTime += duration + .1f;
