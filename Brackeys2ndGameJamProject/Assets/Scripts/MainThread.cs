@@ -15,18 +15,11 @@ namespace Assets.Scenes
   // This is inteded to be the base class for executing things that are happening within the game.
   public class MainThread : MonoBehaviour
   {
-    [Serializable]
-    private struct KeySlot
-    {
-      public string key;
-      public Transform slot;
-    }
-
     [SerializeField]
     private TimedButtonPress keyPressPrototype = null;
 
     [SerializeField]
-    List<KeySlot> buttonContainers = null;
+    RectTransform keySpawnContainer = null;
 
     [SerializeField]
     private TimedSpinner timedSpinnerPrototype = null;
@@ -138,9 +131,9 @@ namespace Assets.Scenes
         var randomNumber = UnityEngine.Random.Range(0, validKeys.Count);
         var randomKey = validKeys[randomNumber];
 
-        var container = buttonContainers.FirstOrDefault(container => container.key == randomKey).slot;
+        var timedKeyEvent = Instantiate(keyPressPrototype, keySpawnContainer);
+        timedKeyEvent.GetComponent<RectTransform>().anchoredPosition = generateRandomPointWithinBounds(keySpawnContainer);
 
-        var timedKeyEvent = Instantiate(keyPressPrototype, container);
         timedKeyEvent.StartTime = tempTime;
         timedKeyEvent.ScoreModifier = scoreModifier;
 
@@ -189,6 +182,17 @@ namespace Assets.Scenes
       var random = UnityEngine.Random.Range(minimumInSeconds * 1000, maximumInSeconds * 1000);
       //Convert back from ms to seconds
       return (float)random / 1000f;
+    }
+
+    public static Vector3 generateRandomPointWithinBounds(RectTransform bounds)
+    {
+      var x = bounds.rect.x;
+      var y = bounds.rect.y;
+
+      var randomX = UnityEngine.Random.Range(0, x);
+      var randomY = UnityEngine.Random.Range(0, y);
+
+      return new Vector3(randomX, randomY, 0);
     }
   }
 }
