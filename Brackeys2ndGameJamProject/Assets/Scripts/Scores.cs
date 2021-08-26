@@ -34,12 +34,13 @@ namespace Scores
       }
     }
 
+    public static readonly int MaxScore = 300;
     public static int ScoreToInt(Scores score)
     {
       switch (score)
       {
         case Scores.SS:
-          return 300;
+          return MaxScore;
         case Scores.S:
           return 250;
         case Scores.A:

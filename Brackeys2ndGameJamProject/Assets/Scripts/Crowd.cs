@@ -14,7 +14,9 @@ namespace Assets.Scenes
 
     public void Start()
     {
-      //FindObjectOfType<ScoreManager>
+      // FindObjectOfType is horrible performance wise and this would normally be handled by some
+      // singleton management system but.. game jam so :shrug:
+      var mainThread = FindObjectOfType<MainThread>();
     }
 
     public void Update()

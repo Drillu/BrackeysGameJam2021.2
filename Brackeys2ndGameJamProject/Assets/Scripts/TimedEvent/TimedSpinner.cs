@@ -1,4 +1,5 @@
-﻿using ScorableAction;
+﻿using fadeOnCommand;
+using ScorableAction;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,11 +24,18 @@ namespace timedSpinner
     [SerializeField]
     Transform spinner = null;
 
+    [SerializeField]
+    FadeOnCommand fadeOnCommand = null;
+
     Vector2 previousMousePosition;
 
     float completionRotationAmount = 720f;
 
     private float totalRotationSoFar = 0f;
+
+    Scores.Scores score = Scores.Scores.F;
+
+    public float ScoreModifier { get; set; }
 
     public void instantiateSpinner(float completionRotationAmount, float timeLimit)
     {
@@ -97,8 +105,8 @@ namespace timedSpinner
     public override Scores.Scores EvaluateScore()
     {
       // SS if the spin was completed
-      return Scores.ScoreHelpers.GetScoreForPercentageAmount(Math.Abs(totalRotationSoFar) / (float)completionRotationAmount);
-
+      score = Scores.ScoreHelpers.GetScoreForPercentageAmount(Math.Abs(totalRotationSoFar) / (float)completionRotationAmount);
+      return score;
     }
 
     protected override void updateTimerVisuals(float timeElapsed)

@@ -35,7 +35,10 @@ namespace Assets.Scenes
 
     private List<string> validKeys = new List<string> { "a", "s", "d", "f" };
 
-    int score = 0;
+    private int totalPossibleScore = 0;
+    private int currentScore = 0;
+
+    public Scores.Scores CurrentScore => Scores.ScoreHelpers.GetScoreForPercentageAmount(currentScore / totalPossibleScore);
 
     List<ITimedAction> actionQueue = new List<ITimedAction>();
 
@@ -84,11 +87,11 @@ namespace Assets.Scenes
       var level1StartTime = 0;
       var level1Duration = 60;
 
-      generateSpinners(level1StartTime, level1Duration, 3000, 5);
-      generateKeys(level1StartTime, level1Duration, 1);
+      generateSpinners(level1StartTime, level1Duration, 3000, 5, .2f);
+      generateKeys(level1StartTime, level1Duration, 1, 1);
     }
 
-    private void generateSpinners(float startTime, float timeFrame, float requiredRotation, float duration, float maxTimeBetween = 0f)
+    private void generateSpinners(float startTime, float timeFrame, float requiredRotation, float duration, float scoreModifier, float maxTimeBetween = 0f)
     {
       float tempTime = startTime;
       int totalAdded = 0;
@@ -98,6 +101,7 @@ namespace Assets.Scenes
 
         var timedSpinner = Instantiate(timedSpinnerPrototype, spinnerContainer);
         timedSpinner.StartTime = tempTime;
+        timedSpinner.ScoreModifier = scoreModifier;
         timedSpinner.instantiateSpinner(requiredRotation, duration);
         timedSpinner.gameObject.SetActive(false);
         tempTime += duration + maxTimeBetween + generateRandomTimeAmount(0, 3);
@@ -107,7 +111,7 @@ namespace Assets.Scenes
 
     // TODO we probably eventually want to support overlapping press keys, will need a quick algorithm to make 
     // sure we don't generate the same key in the same timeframe
-    private void generateKeys(float startTime, float timeFrame, float duration)
+    private void generateKeys(float startTime, float timeFrame, float duration, float scoreModifier)
     {
       float tempTime = startTime;
       while (tempTime < timeFrame)
@@ -119,6 +123,7 @@ namespace Assets.Scenes
 
         var timedKeyEvent = Instantiate(keyPressPrototype, container);
         timedKeyEvent.StartTime = tempTime;
+        timedKeyEvent.ScoreModifier = scoreModifier;
 
         //For now just giving it an arbitrary offset time, to see how it feels
         timedKeyEvent.instantiateInstance(duration, duration - 0.2f, randomKey);
@@ -141,11 +146,22 @@ namespace Assets.Scenes
       if (action is IScorableAction scoredAction)
       {
         var scoreRank = scoredAction.EvaluateScore();
-        score += Scores.ScoreHelpers.ScoreToInt(scoreRank);
-        Debug.Log(scoreRank.ToString());
+        var rawScore = Scores.ScoreHelpers.ScoreToInt(scoreRank);
+        var finalScore = rawScore * scoredAction.ScoreModifier;
+        var totalPossibleScore = Scores.ScoreHelpers.MaxScore * scoredAction.ScoreModifier;
+
+        // We are losing floating point precision here, totes okay though
+        UpdateTotalScore((int)finalScore, (int)totalPossibleScore);        
       }
 
       StartCoroutine(action.AnimateThenDestroySelf());
+    }
+
+    public void UpdateTotalScore(int score, int totalPossible)
+    {
+      //We could do like a combo thing here! Maybe we could have a discussion about it.
+      currentScore += score;
+      totalPossibleScore += totalPossible;
     }
 
     public static float generateRandomTimeAmount(float minimumInSeconds, float maximumInSeconds)

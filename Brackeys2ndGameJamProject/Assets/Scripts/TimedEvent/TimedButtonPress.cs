@@ -24,17 +24,22 @@ namespace timedButton
     Image buttonImage = null;
 
     [SerializeField]
+    Image VFXImage = null;
+
+    [SerializeField]
     Animator animator = null;
 
     [SerializeField]
     TMP_Text scoreValue = null;
 
     [SerializeField]
-    FadeOnCommand fadeOnCommand = null;
+    FadeOnCommand fadeOnCommand = null;  
 
     private string key = "";
     private float targetTime = 0f;
     private Scores.Scores score = Scores.Scores.F;
+
+    public float ScoreModifier { get; set; }
 
     public void instantiateInstance(float maxDuration, float targetTime, string key)
     {
@@ -73,8 +78,16 @@ namespace timedButton
     public override IEnumerator AnimateThenDestroySelf()
     {
       scoreValue.text = Scores.ScoreHelpers.ScoreToFlavorString(score);
-      scoreValue.color = Scores.ScoreHelpers.ScoreToColor(score);
-      collapsingRing.color = Scores.ScoreHelpers.ScoreToColor(score);
+      var newColor = Scores.ScoreHelpers.ScoreToColor(score);
+      scoreValue.color = newColor;
+      collapsingRing.color = newColor;
+
+      if (score != Scores.Scores.F)
+      {
+        VFXImage.gameObject.SetActive(true);
+        VFXImage.color = newColor;
+      }
+
 
       animator.SetBool(Fade, true);
       yield return fadeOnCommand.FadeElements(.8f);
@@ -93,22 +106,22 @@ namespace timedButton
 
       switch(accuracy)
       {
-        case var a when (a <= .1):
+        case var a when (a <= .05):
           score = Scores.Scores.SS;
           break;
-        case var a when (a <= .2):
+        case var a when (a <= .1):
           score = Scores.Scores.S;
           break;
-        case var a when (a <= .3):
+        case var a when (a <= .2):
           score = Scores.Scores.A;
           break;
-        case var a when (a <= .4):
+        case var a when (a <= .3):
           score = Scores.Scores.B;
           break;
-        case var a when (a <= 5):
+        case var a when (a <= 4):
           score = Scores.Scores.C;
           break;
-        case var a when (a <= 6):
+        case var a when (a <= 5):
           score = Scores.Scores.F;
           break;
       }
