@@ -37,6 +37,14 @@ namespace Assets.Scenes
     [SerializeField]
     CurtainBlockingEvent curtainBlockingEvent = null;
 
+    [Serializable]
+    private struct Banner
+    {
+      int level;
+      CurtainBlockingEvent curtain;
+    }
+
+
     private List<string> validKeys = new List<string> { "a", "s", "d", "f" };
 
     private int totalPossibleScore = 0;

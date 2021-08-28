@@ -76,6 +76,10 @@ namespace timedButton
       var tempColor = collapsingRing.color;
       tempColor.a = 0.8f * timeElapsed / maxDuration;
       collapsingRing.color = tempColor;
+
+      tempColor = buttonImage.color;
+      tempColor.a = 0.8f * timeElapsed / maxDuration;
+      buttonImage.color = tempColor;
     }
 
     public override IEnumerator AnimateThenDestroySelf()
