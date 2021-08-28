@@ -20,15 +20,29 @@ namespace blockingEvent
     [SerializeField]
     TMP_Text buttonText = null;
 
-    private bool continued = false;
+    [SerializeField]
+    GameObject tutorial = null;
 
-    public void instantiateCurtainEvent()
+    [SerializeField]
+    GameObject gameEnd = null;
+
+    private bool continued = false;
+    private bool isTutorial = false;
+
+    public void instantiateCurtainEvent(bool isTutorial)
     {
+      this.isTutorial = isTutorial;
+      tutorial.SetActive(isTutorial);
+      gameEnd.SetActive(!isTutorial);
       continued = false;
     }
 
     public IEnumerator RunEvent()
     {
+      if (!isTutorial)
+      {
+        animator.SetTrigger(CloseParameter);
+      }
       while (!continued)
       {
         yield return null;

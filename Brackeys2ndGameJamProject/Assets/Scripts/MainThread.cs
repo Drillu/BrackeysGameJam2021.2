@@ -72,6 +72,8 @@ namespace Assets.Scenes
 
     public IEnumerator Start()
     {
+      curtainBlockingEvent.instantiateCurtainEvent(true);
+      yield return curtainBlockingEvent.RunEvent();
       yield return StartGame();
     }
 
@@ -88,10 +90,6 @@ namespace Assets.Scenes
       var keysScoreModifier = 1f;
       var buttonsScoreModifier = 1f;
       var spinnerScoreModifier = 4f;
-      //Introduction and quick tutorial
-      curtainBlockingEvent.instantiateCurtainEvent();
-      yield return curtainBlockingEvent.RunEvent();
-
       var spinnerAmountNeeded = 2000f;
 
       var level1StartTime = 0;
@@ -100,7 +98,6 @@ namespace Assets.Scenes
 
       // Level 1 Slow keys with one type
       //yield return banners.First(banner => banner.level == 1).curtain.RunEvent();
-      generateSpinners(level1StartTime, level1Duration, spinnerAmountNeeded, spinnerScoreModifier, 2f);
       generateKeys(level1StartTime, level1Duration, 2f, keysScoreModifier, level1Keys);
 
 
@@ -262,6 +259,7 @@ namespace Assets.Scenes
 
     private IEnumerator endOfGame()
     {
+      curtainBlockingEvent.instantiateCurtainEvent(false);
       yield return curtainBlockingEvent.RunEvent();
       yield return StartGame();
     }
