@@ -70,14 +70,14 @@ namespace Assets.Scenes
 
     private IEnumerator RunGame()
     {
-      var keysScoreModifier = .5f;
+      var keysScoreModifier = 1f;
       var buttonsScoreModifier = 1f;
       var spinnerScoreModifier = 4f;
       //Introduction and quick tutorial
       curtainBlockingEvent.instantiateCurtainEvent();
       yield return curtainBlockingEvent.RunEvent();
 
-      var spinnerAmountNeeded = 5000f;
+      var spinnerAmountNeeded = 2000f;
 
       var level1StartTime = 0;
       var level1Duration = 20;
