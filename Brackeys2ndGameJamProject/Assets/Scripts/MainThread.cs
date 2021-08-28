@@ -72,16 +72,21 @@ namespace Assets.Scenes
 
     public IEnumerator Start()
     {
+      ResetState();
       curtainBlockingEvent.instantiateCurtainEvent(true);
       yield return curtainBlockingEvent.RunEvent();
       yield return StartGame();
     }
 
-    public IEnumerator StartGame()
+    public void ResetState()
     {
       scorePercentage = 1f;
       performanceSlider.value = scorePercentage;
       penguinRenderer.SetPenguin(0);
+    }
+    public IEnumerator StartGame()
+    {
+      ResetState();
       yield return RunGame();
     }
 

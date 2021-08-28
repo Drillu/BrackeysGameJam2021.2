@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scenes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,12 +43,17 @@ namespace blockingEvent
       if (!isTutorial)
       {
         animator.SetTrigger(CloseParameter);
+
       }
       while (!continued)
       {
         yield return null;
       }
       animator.SetTrigger(OpenParameter);
+      if (!isTutorial)
+      {
+        FindObjectOfType<MainThread>().ResetState();
+      }
       yield return new WaitForSeconds(2f);
 
     }
