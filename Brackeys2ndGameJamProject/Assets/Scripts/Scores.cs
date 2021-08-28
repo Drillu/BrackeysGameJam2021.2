@@ -101,6 +101,27 @@ namespace Scores
       return "";
     }
 
+    public static float ScoreToOverallPercentage(Scores score)
+    {
+      switch (score)
+      {
+        case Scores.SS:
+          return .15f;
+        case Scores.S:
+          return .1f;
+        case Scores.A:
+          return .5f;
+        case Scores.B:
+          return 0;
+        case Scores.C:
+          return -.5f;
+        case Scores.F:
+          return -.10f;
+      }
+
+      return 0;
+    }
+
     public static Color ScoreToColor(Scores score)
     {
       switch (score)

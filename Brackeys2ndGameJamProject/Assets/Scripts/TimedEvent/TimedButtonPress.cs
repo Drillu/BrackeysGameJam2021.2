@@ -41,12 +41,15 @@ namespace timedButton
 
     public float ScoreModifier { get; set; }
 
-    public void instantiateInstance(float maxDuration, string key)
+    public virtual void instantiateInstance(float maxDuration, string key)
     {
       this.maxDuration = maxDuration;
       this.key = key;
       this.targetTime = (3 * maxDuration / 4f);
-      keyValueText.text = key;
+      if (keyValueText != null)
+      {
+        keyValueText.text = key;
+      }
     }
 
     protected void Update()
