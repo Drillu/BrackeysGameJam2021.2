@@ -81,7 +81,7 @@ namespace Assets.Scenes
 
       var level1StartTime = 0;
       var level1Duration = 20;
-      var level1Keys = new List<string> { "a"};
+      var level1Keys = new List<string> {"a"};
 
       // Level 1 Slow keys with one type
       //yield return banners.First(banner => banner.level == 1).curtain.RunEvent();
@@ -174,13 +174,13 @@ namespace Assets.Scenes
       var buttonsDuration = .8f;
       var spinnerDuration = 10f;
 
-      //var keysTimeBetween = 1f;
+      var keysTimeBetween = 3f;
       //var buttonsTimeBetween = 2f;
       //var spinnerTimeBetween = 10f;
       while (levelResult)
       {
         generateKeys(infiniteLevelStartTime, infiniteLevelDuration, keysDuration, keysScoreModifier, level5Keys);
-        generateButtons(infiniteLevelStartTime, infiniteLevelDuration, buttonsDuration, buttonsScoreModifier, 4f);
+        generateButtons(infiniteLevelStartTime, infiniteLevelDuration, buttonsDuration, buttonsScoreModifier, keysTimeBetween);
         generateSpinners(infiniteLevelStartTime, infiniteLevelDuration, spinnerAmountNeeded, spinnerDuration, spinnerScoreModifier);
         yield return RunLevel();
         if (!levelResult)
@@ -193,6 +193,7 @@ namespace Assets.Scenes
           keysDuration = Mathf.Max(keysDuration - .1f, .2f);
           buttonsDuration = Mathf.Max(buttonsDuration - .1f, .4f);
           spinnerDuration = Mathf.Max(spinnerDuration - .5f, 5f);
+          keysTimeBetween = Mathf.Max(keysTimeBetween - .5f, 1f);
           spinnerAmountNeeded += 50f;
         }
       }
