@@ -55,7 +55,7 @@ namespace Assets.Scenes
 
     public IEnumerator Start()
     {
-      scorePercentage = 1f;
+      scorePercentage = 100f;
       yield return RunGame();
     }
 
@@ -68,6 +68,7 @@ namespace Assets.Scenes
       yield return curtainBlockingEvent.RunEvent();
       generateKeys(level1StartTime, level1Duration, 1f, 1);
       generateButtons(level1StartTime, level1Duration, 1f, 1, 2);
+      generateSpinners(level1StartTime, level1Duration, 720f, 5, 1);
       yield return RunLevel();
 
       var level2StartTime = 0;
