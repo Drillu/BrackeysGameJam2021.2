@@ -10,6 +10,7 @@ using System;
 using timedSpinner;
 using blockingEvent;
 using timedClick;
+using bannerBlock;
 
 namespace Assets.Scenes
 {
@@ -40,9 +41,12 @@ namespace Assets.Scenes
     [Serializable]
     private struct Banner
     {
-      int level;
-      CurtainBlockingEvent curtain;
+      public int level;
+      public BannerBlockingEvent curtain;
     }
+
+    [SerializeField]
+    List<Banner> banners = new List<Banner>();
 
 
     private List<string> validKeys = new List<string> { "a", "s", "d", "f" };
@@ -69,11 +73,15 @@ namespace Assets.Scenes
 
     private IEnumerator RunGame()
     {
+      //Introduction and quick tutorial
+      curtainBlockingEvent.instantiateCurtainEvent();
+      yield return curtainBlockingEvent.RunEvent();
+
       var level1StartTime = 0;
       var level1Duration = 30;
       // Level 1 (Introduction to the keys!)
-      curtainBlockingEvent.instantiateCurtainEvent();
-      yield return curtainBlockingEvent.RunEvent();
+      yield return banners.First(banner => banner.level == 1).curtain.RunEvent();
+
       generateKeys(level1StartTime, level1Duration, 1f, 1);
       generateButtons(level1StartTime, level1Duration, 1f, 1, 2);
       generateSpinners(level1StartTime, level1Duration, 720f, 10, 1);

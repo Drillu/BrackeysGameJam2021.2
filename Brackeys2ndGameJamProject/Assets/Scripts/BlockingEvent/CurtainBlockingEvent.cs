@@ -26,9 +26,9 @@ namespace blockingEvent
     {
       continued = false;
     }
+
     public IEnumerator RunEvent()
     {
-      animator.SetTrigger(CloseParameter);
       while (!continued)
       {
         yield return null;
@@ -36,11 +36,6 @@ namespace blockingEvent
       animator.SetTrigger(OpenParameter);
       yield return new WaitForSeconds(2f);
 
-    }
-
-    private IEnumerator StartCountdown()
-    {
-      yield return null;
     }
 
     public void Event_Continue()
