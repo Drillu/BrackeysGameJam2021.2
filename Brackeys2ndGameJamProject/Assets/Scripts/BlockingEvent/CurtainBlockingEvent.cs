@@ -22,9 +22,8 @@ namespace blockingEvent
 
     private bool continued = false;
 
-    public void instantiateCurtainEvent(int level, bool hintKeys, bool hintSpinner)
+    public void instantiateCurtainEvent()
     {
-      levelText.text = "Level " + level.ToString();
       continued = false;
     }
     public IEnumerator RunEvent()

@@ -72,17 +72,17 @@ namespace Assets.Scenes
       var level1StartTime = 0;
       var level1Duration = 30;
       // Level 1 (Introduction to the keys!)
-      curtainBlockingEvent.instantiateCurtainEvent(1, true, false);
+      curtainBlockingEvent.instantiateCurtainEvent();
       yield return curtainBlockingEvent.RunEvent();
       generateKeys(level1StartTime, level1Duration, 1f, 1);
       generateButtons(level1StartTime, level1Duration, 1f, 1, 2);
-      generateSpinners(level1StartTime, level1Duration, 720f, 5, 1);
+      generateSpinners(level1StartTime, level1Duration, 720f, 10, 1);
       yield return RunLevel();
 
       var level2StartTime = 0;
       var level2Duration = 30;
       // Level 2 (Introduction to the spinner!)
-      curtainBlockingEvent.instantiateCurtainEvent(2, true, false);
+      curtainBlockingEvent.instantiateCurtainEvent();
       yield return curtainBlockingEvent.RunEvent();
       generateKeys(level2StartTime, level2Duration, .5f, 1);
       yield return RunLevel();

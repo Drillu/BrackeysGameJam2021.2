@@ -35,12 +35,15 @@ namespace timedSpinner
 
     Scores.Scores score = Scores.Scores.F;
 
+    RectTransform rectTransform;
+
     public float ScoreModifier { get; set; }
 
     public void instantiateSpinner(float completionRotationAmount, float timeLimit)
     {
       maxDuration = timeLimit;
       this.completionRotationAmount = completionRotationAmount;
+      rectTransform = GetComponent<RectTransform>();
     }
 
     protected void Update()
@@ -82,7 +85,10 @@ namespace timedSpinner
       //Calculates the vectors in relation to the center of the circle,
       //Then determines how much it should be rotated based the angle between
       Vector2 mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-      Vector2 centerBallPosition = new Vector2(transform.position.x, transform.position.y);
+      Debug.Log(mousePosition);
+      Vector3 pointToTravel = Camera.main.WorldToScreenPoint(transform.position);
+      Vector2 centerBallPosition = new Vector2(pointToTravel.x, pointToTravel.y);
+      Debug.Log(centerBallPosition);
 
       Vector2 oldMouseVector = previousMousePosition - centerBallPosition;
       Vector2 currentMouseVector = mousePosition - centerBallPosition;
