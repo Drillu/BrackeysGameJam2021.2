@@ -25,7 +25,7 @@ RectTransform:
   m_GameObject: {fileID: 260428005695587198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
   m_Children:
   - {fileID: 5510255931315831507}
   - {fileID: 5902599696772800997}
@@ -1317,6 +1317,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Banner
       objectReference: {fileID: 0}
+    - target: {fileID: 1350495360014401230, guid: 30163df41bbe5fa43a01a472f197c4e2, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 6fbe9b8e64c3860409194f293fe6b2bd, type: 2}
     - target: {fileID: 2812119087808779705, guid: 30163df41bbe5fa43a01a472f197c4e2, type: 3}
       propertyPath: level
       value: 2
@@ -1434,6 +1438,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5730806494622905209}
     m_Modifications:
+    - target: {fileID: 1350495360014401230, guid: 30163df41bbe5fa43a01a472f197c4e2, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 359307695ec23614f973b4566f045d48, type: 2}
     - target: {fileID: 2812119087808779705, guid: 30163df41bbe5fa43a01a472f197c4e2, type: 3}
       propertyPath: level
       value: 4
@@ -1551,6 +1559,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5730806494622905209}
     m_Modifications:
+    - target: {fileID: 1350495360014401230, guid: 30163df41bbe5fa43a01a472f197c4e2, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: eb65336787bbe524d96a60f36d07111b, type: 2}
     - target: {fileID: 2812119087808779705, guid: 30163df41bbe5fa43a01a472f197c4e2, type: 3}
       propertyPath: level
       value: 5
