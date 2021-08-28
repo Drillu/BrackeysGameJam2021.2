@@ -233,8 +233,8 @@ namespace Assets.Scenes
       var x = bounds.rect.x;
       var y = bounds.rect.y;
 
-      var randomX = UnityEngine.Random.Range(0, x);
-      var randomY = UnityEngine.Random.Range(0, y);
+      var randomX = UnityEngine.Random.Range(-x, x);
+      var randomY = UnityEngine.Random.Range(-y, y);
 
       return new Vector3(randomX, randomY, 0);
     }

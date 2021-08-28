@@ -392,7 +392,7 @@ RectTransform:
   m_GameObject: {fileID: 6620024641048300655}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 6620024640967521031}
   - {fileID: 7425298216172171396}
@@ -400,8 +400,8 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 155, y: 144.4}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -458,6 +458,7 @@ MonoBehaviour:
   completionSlider: {fileID: 3909182704792060886}
   timeLeftSlider: {fileID: 5854706058665161669}
   spinner: {fileID: 6620024640967521031}
+  fadeOnCommand: {fileID: 0}
 --- !u!1 &6973049966737857275
 GameObject:
   m_ObjectHideFlags: 0
