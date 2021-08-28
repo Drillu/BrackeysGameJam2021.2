@@ -48,9 +48,6 @@ namespace Assets.Scenes
     [SerializeField]
     List<Banner> banners = new List<Banner>();
 
-
-    private List<string> validKeys = new List<string> { "a", "s", "d", "f" };
-
     private int totalPossibleScore = 0;
     private int currentScore = 0;
 
@@ -67,35 +64,138 @@ namespace Assets.Scenes
 
     public IEnumerator Start()
     {
-      scorePercentage = 100f;
+      scorePercentage = 1f;
       yield return RunGame();
     }
 
     private IEnumerator RunGame()
     {
+      var keysScoreModifier = .5f;
+      var buttonsScoreModifier = 1f;
+      var spinnerScoreModifier = 4f;
       //Introduction and quick tutorial
       curtainBlockingEvent.instantiateCurtainEvent();
       yield return curtainBlockingEvent.RunEvent();
 
+      var spinnerAmountNeeded = 5000f;
+
       var level1StartTime = 0;
-      var level1Duration = 30;
-      // Level 1 (Introduction to the keys!)
-      yield return banners.First(banner => banner.level == 1).curtain.RunEvent();
+      var level1Duration = 20;
+      var level1Keys = new List<string> { "a"};
 
-      generateKeys(level1StartTime, level1Duration, 1f, 1);
-      generateButtons(level1StartTime, level1Duration, 1f, 1, 2);
-      generateSpinners(level1StartTime, level1Duration, 720f, 10, 1);
+      // Level 1 Slow keys with one type
+      //yield return banners.First(banner => banner.level == 1).curtain.RunEvent();
+      generateKeys(level1StartTime, level1Duration, 2f, keysScoreModifier, level1Keys);
+
+
       yield return RunLevel();
+      if (!levelResult)
+      {
+        runEndOfGameFlow();
+        yield break;
+      }
 
+      // Level 2 More keys and speeding up a bit!
       var level2StartTime = 0;
-      var level2Duration = 30;
-      // Level 2 (Introduction to the spinner!)
-      curtainBlockingEvent.instantiateCurtainEvent();
-      yield return curtainBlockingEvent.RunEvent();
-      generateKeys(level2StartTime, level2Duration, .5f, 1);
+      var level2Duration = 20;
+      var level2Keys = new List<string> { "a" , "s" };
+
+      yield return banners.First(banner => banner.level == 2).curtain.RunEvent();
+
+      generateKeys(level2StartTime, level2Duration, 1f, keysScoreModifier, level2Keys);
+
       yield return RunLevel();
-      //generateSpinners(level1StartTime, level1Duration, 3000, 5, .2f);
-      // Level 3 (Heating up the spinner + button difficulty a bit!)
+      if (!levelResult)
+      {
+        runEndOfGameFlow();
+        yield break;
+      }
+
+      // Level 3 (Adding in some buttons!)
+      var level3StartTime = 0;
+      var level3Duration = 20;
+      var level3Keys = new List<string> { "a", "s" };
+
+      yield return banners.First(banner => banner.level == 3).curtain.RunEvent();
+
+      generateKeys(level3StartTime, level3Duration, 1f, keysScoreModifier, level3Keys);
+      generateButtons(level3StartTime, level3Duration, 1f, buttonsScoreModifier, 1.5f);
+
+      yield return RunLevel();
+      if (!levelResult)
+      {
+        runEndOfGameFlow();
+        yield break;
+      }
+
+      // Level 4 (Adding in spinners)
+      var level4StartTime = 0;
+      var level4Duration = 20;
+      var level4Keys = new List<string> { "a", "s" };
+
+      yield return banners.First(banner => banner.level == 4).curtain.RunEvent();
+
+      generateKeys(level4StartTime, level4Duration, 1f, keysScoreModifier, level4Keys);
+      generateButtons(level4StartTime, level4Duration, 1f, buttonsScoreModifier, 1.5f);
+      generateSpinners(level4StartTime, level4Duration, spinnerAmountNeeded, spinnerScoreModifier, 2f);
+
+      yield return RunLevel();
+      if (!levelResult)
+      {
+        runEndOfGameFlow();
+        yield break;
+      }
+
+
+      // Level 5 (Adding more keys!)
+      var level5StartTime = 0;
+      var level5Duration = 40;
+      var level5Keys = new List<string> { "a", "s", "d", "f" };
+
+      yield return banners.First(banner => banner.level == 5).curtain.RunEvent();
+
+      generateKeys(level5StartTime, level5Duration, .8f, keysScoreModifier, level5Keys);
+      generateButtons(level5StartTime, level5Duration, .8f, buttonsScoreModifier, 3f);
+      generateSpinners(level5StartTime, level5Duration, spinnerAmountNeeded, spinnerScoreModifier, 1f);
+
+      yield return RunLevel();
+      if (!levelResult)
+      {
+        runEndOfGameFlow();
+        yield break;
+      }
+
+      // Ramping up difficulty!
+      var infiniteLevelStartTime = 0;
+      var infiniteLevelDuration = 30;
+      var infiniteLevelKeys = new List<string> { "a", "s", "d", "f" };
+
+      var keysDuration = .8f;
+      var buttonsDuration = .8f;
+      var spinnerDuration = 10f;
+
+      //var keysTimeBetween = 1f;
+      //var buttonsTimeBetween = 2f;
+      //var spinnerTimeBetween = 10f;
+      while (levelResult)
+      {
+        generateKeys(infiniteLevelStartTime, infiniteLevelDuration, keysDuration, keysScoreModifier, level5Keys);
+        generateButtons(infiniteLevelStartTime, infiniteLevelDuration, buttonsDuration, buttonsScoreModifier, 4f);
+        generateSpinners(infiniteLevelStartTime, infiniteLevelDuration, spinnerAmountNeeded, spinnerDuration, spinnerScoreModifier);
+        yield return RunLevel();
+        if (!levelResult)
+        {
+          runEndOfGameFlow();
+          yield break;
+        }
+        else
+        {
+          keysDuration = Mathf.Max(keysDuration - .1f, .2f);
+          buttonsDuration = Mathf.Max(buttonsDuration - .1f, .4f);
+          spinnerDuration = Mathf.Max(spinnerDuration - .5f, 5f);
+          spinnerAmountNeeded += 50f;
+        }
+      }
     }
 
     // Takes the current actionQueue and runs each item inside of it according to how much time has passed.
@@ -109,7 +209,7 @@ namespace Assets.Scenes
       while (nextAction != null)
       {
         //The user has gameOvered!
-        if (scorePercentage < 0)
+        if (scorePercentage <= 0)
         {
           levelResult = false;
           yield break;
@@ -137,6 +237,11 @@ namespace Assets.Scenes
 
       levelResult = scorePercentage > 0;
     }
+    
+    private void runEndOfGameFlow()
+    {
+
+    }
 
     private void generateSpinners(float startTime, float timeFrame, float requiredRotation, float duration, float scoreModifier, float maxTimeBetween = 0f)
     {
@@ -151,20 +256,18 @@ namespace Assets.Scenes
         timedSpinner.ScoreModifier = scoreModifier;
         timedSpinner.instantiateSpinner(requiredRotation, duration);
         timedSpinner.gameObject.SetActive(false);
-        tempTime += duration + maxTimeBetween + generateRandomTimeAmount(0, 3);
+        tempTime += duration + maxTimeBetween;
         actionQueue.Add(timedSpinner);
       }
     }
 
-    // TODO we probably eventually want to support overlapping press keys, will need a quick algorithm to make 
-    // sure we don't generate the same key in the same timeframe
-    private void generateKeys(float startTime, float timeFrame, float duration, float scoreModifier, float timeBetween = .1f)
+    private void generateKeys(float startTime, float timeFrame, float duration, float scoreModifier, List<string> possibleKeys, float timeBetween = .1f)
     {
       float tempTime = startTime;
       while (tempTime < timeFrame)
       {
-        var randomNumber = UnityEngine.Random.Range(0, validKeys.Count);
-        var randomKey = validKeys[randomNumber];
+        var randomNumber = UnityEngine.Random.Range(0, possibleKeys.Count);
+        var randomKey = possibleKeys[randomNumber];
 
         var timedKeyEvent = Instantiate(keyPressPrototype, keySpawnContainer);
         timedKeyEvent.GetComponent<RectTransform>().anchoredPosition = generateRandomPointWithinBounds(keySpawnContainer);
@@ -186,9 +289,6 @@ namespace Assets.Scenes
       float tempTime = startTime;
       while (tempTime < timeFrame)
       {
-        var randomNumber = UnityEngine.Random.Range(0, validKeys.Count);
-        var randomKey = validKeys[randomNumber];
-
         var timedKeyEvent = Instantiate(clickEventPrototype, clickEventContainer);
         timedKeyEvent.GetComponent<RectTransform>().anchoredPosition = generateRandomPointWithinBounds(clickEventContainer);
 
@@ -196,7 +296,7 @@ namespace Assets.Scenes
         timedKeyEvent.ScoreModifier = scoreModifier;
 
         //For now just giving it an arbitrary offset time, to see how it feels
-        timedKeyEvent.instantiateInstance(duration, randomKey);
+        timedKeyEvent.instantiateInstance(duration, "");
 
         timedKeyEvent.gameObject.SetActive(false);
         tempTime += timeBetween;
@@ -216,7 +316,7 @@ namespace Assets.Scenes
       if (action is IScorableAction scoredAction)
       {
         var scoreRank = scoredAction.EvaluateScore();
-        var performancePercentageChange = Scores.ScoreHelpers.ScoreToOverallPercentage(scoreRank);
+        var performancePercentageChange = Scores.ScoreHelpers.ScoreToOverallPercentage(scoreRank) * scoredAction.ScoreModifier;
         var rawScore = Scores.ScoreHelpers.ScoreToInt(scoreRank);
         var finalScore = rawScore * scoredAction.ScoreModifier;
         var totalPossibleScore = Scores.ScoreHelpers.MaxScore * scoredAction.ScoreModifier;
@@ -230,10 +330,14 @@ namespace Assets.Scenes
 
     public void UpdateTotalScore(int score, int totalPossible, float performancePercentageChange)
     {
+      if (scorePercentage == 0)
+      {
+        return; // We already lost, nothing more to do here.
+      }
       //We could do like a combo thing here! Maybe we could have a discussion about it.
       currentScore += score;
       totalPossibleScore += totalPossible;
-      scorePercentage += performancePercentageChange;
+      scorePercentage = Mathf.Clamp01(scorePercentage + performancePercentageChange);
     }
 
     public static float generateRandomTimeAmount(float minimumInSeconds, float maximumInSeconds)

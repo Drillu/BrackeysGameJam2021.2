@@ -1,4 +1,5 @@
 ﻿using blockingEvent;
+using penguinRenderer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,11 +16,18 @@ namespace bannerBlock
     private readonly string Outro = "Outro";
 
     [SerializeField]
+    private int level = 0;
+
+    [SerializeField]
+    PenguinRenderer penguinRenderer;
+    
+    [SerializeField]
     Animator animator = null;
     public IEnumerator RunEvent()
     {
       animator.SetTrigger(Intro);
       yield return new WaitForSeconds(3);
+      penguinRenderer.SetPenguin(level);
       animator.SetTrigger(Outro);
       yield return new WaitForSeconds(2f);
     }
