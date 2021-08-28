@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using timedEvent;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,13 +20,23 @@ namespace timedSpinner
     Slider completionSlider = null;
 
     [SerializeField]
-    Slider timeLeftSlider = null;
+    Image collapsingRing = null;
 
     [SerializeField]
     Transform spinner = null;
 
     [SerializeField]
     FadeOnCommand fadeOnCommand = null;
+
+    [SerializeField]
+    TMP_Text scoreValue = null;
+
+    [SerializeField]
+    Image VFXImage = null;
+
+    [SerializeField]
+    Animator animator = null;
+
 
     Vector2 previousMousePosition;
 
@@ -104,21 +115,40 @@ namespace timedSpinner
 
     public override IEnumerator AnimateThenDestroySelf()
     {
+      animator.SetBool("Fade", true);
+      yield return new WaitForSeconds(.5f);
       Destroy(this.gameObject);
       yield return null;
     }
 
     public override Scores.Scores EvaluateScore()
-    {
+    {   
       // SS if the spin was completed
       score = Scores.ScoreHelpers.GetScoreForPercentageAmount(Math.Abs(totalRotationSoFar) / (float)completionRotationAmount);
+      scoreValue.text = Scores.ScoreHelpers.ScoreToFlavorString(score);
+      var newColor = Scores.ScoreHelpers.ScoreToColor(score);
+      scoreValue.color = newColor;
+      collapsingRing.color = newColor;
+
+      if (score != Scores.Scores.F)
+      {
+        VFXImage.gameObject.SetActive(true);
+        VFXImage.color = newColor;
+      }
+
       return score;
     }
 
     protected override void updateTimerVisuals(float timeElapsed)
     {
       completionSlider.value = Math.Abs(totalRotationSoFar) / (float)completionRotationAmount;
-      timeLeftSlider.value = timeElapsed / maxDuration;
+      float collapsePercentage = Mathf.Clamp(maxDuration / timeElapsed, 0, 4f);
+      collapsingRing.rectTransform.localScale = Vector3.one * (collapsePercentage);
+
+      //Fade the circle
+      var tempColor = collapsingRing.color;
+      tempColor.a = 0.8f * timeElapsed / maxDuration;
+      collapsingRing.color = tempColor;
     }
   }
 }

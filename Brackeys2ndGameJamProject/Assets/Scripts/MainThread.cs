@@ -100,6 +100,7 @@ namespace Assets.Scenes
 
       // Level 1 Slow keys with one type
       //yield return banners.First(banner => banner.level == 1).curtain.RunEvent();
+      generateSpinners(level1StartTime, level1Duration, spinnerAmountNeeded, spinnerScoreModifier, 2f);
       generateKeys(level1StartTime, level1Duration, 2f, keysScoreModifier, level1Keys);
 
 
@@ -256,7 +257,13 @@ namespace Assets.Scenes
     
     private void runEndOfGameFlow()
     {
+      StartCoroutine(endOfGame());
+    }
 
+    private IEnumerator endOfGame()
+    {
+      yield return curtainBlockingEvent.RunEvent();
+      yield return StartGame();
     }
 
     private void generateSpinners(float startTime, float timeFrame, float requiredRotation, float duration, float scoreModifier, float maxTimeBetween = 0f)
