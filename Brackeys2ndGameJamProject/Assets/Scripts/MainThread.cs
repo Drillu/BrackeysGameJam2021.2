@@ -11,6 +11,8 @@ using timedSpinner;
 using blockingEvent;
 using timedClick;
 using bannerBlock;
+using UnityEngine.UI;
+using penguinRenderer;
 
 namespace Assets.Scenes
 {
@@ -38,6 +40,12 @@ namespace Assets.Scenes
     [SerializeField]
     CurtainBlockingEvent curtainBlockingEvent = null;
 
+    [SerializeField]
+    Slider performanceSlider = null;
+
+    [SerializeField]
+    PenguinRenderer penguinRenderer = null;
+
     [Serializable]
     private struct Banner
     {
@@ -64,7 +72,14 @@ namespace Assets.Scenes
 
     public IEnumerator Start()
     {
+      yield return StartGame();
+    }
+
+    public IEnumerator StartGame()
+    {
       scorePercentage = 1f;
+      performanceSlider.value = scorePercentage;
+      penguinRenderer.SetPenguin(0);
       yield return RunGame();
     }
 
@@ -339,6 +354,7 @@ namespace Assets.Scenes
       currentScore += score;
       totalPossibleScore += totalPossible;
       scorePercentage = Mathf.Clamp01(scorePercentage + performancePercentageChange);
+      performanceSlider.value = scorePercentage;
     }
 
     public static float generateRandomTimeAmount(float minimumInSeconds, float maximumInSeconds)

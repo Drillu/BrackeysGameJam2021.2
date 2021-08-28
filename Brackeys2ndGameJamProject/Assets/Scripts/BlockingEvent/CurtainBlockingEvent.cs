@@ -18,7 +18,7 @@ namespace blockingEvent
     Animator animator = null;
 
     [SerializeField]
-    TMP_Text levelText = null;
+    TMP_Text buttonText = null;
 
     private bool continued = false;
 

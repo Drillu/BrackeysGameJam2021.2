@@ -537,8 +537,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 762.5721, y: -260.8278}
-  m_SizeDelta: {x: 245.802, y: 379.797}
+  m_AnchoredPosition: {x: 658.1535, y: -208.61853}
+  m_SizeDelta: {x: 294.9401, y: 275.3784}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3882745763304315275
 CanvasRenderer:
@@ -619,7 +619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6302479818983800342}
-  levelText: {fileID: 0}
+  buttonText: {fileID: 0}
 --- !u!1 &6893307299774162778
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,7 +688,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 497.55, y: -14.9}
+  m_AnchoredPosition: {x: 543.16, y: 8.1}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6893307300368209108
@@ -1013,6 +1013,8 @@ MonoBehaviour:
   clickEventPrototype: {fileID: 191159610990174337, guid: 75bd188be953c9f4094010e745c84e07, type: 3}
   clickEventContainer: {fileID: 1743705260462282845}
   curtainBlockingEvent: {fileID: 2689936607175533368}
+  performanceSlider: {fileID: 3066385286647522814}
+  penguinRenderer: {fileID: 0}
   banners:
   - level: 2
     curtain: {fileID: 462384047539298407}

@@ -106,17 +106,17 @@ namespace Scores
       switch (score)
       {
         case Scores.SS:
-          return .15f;
-        case Scores.S:
           return .1f;
+        case Scores.S:
+          return .05f;
         case Scores.A:
-          return .5f;
+          return 0f;
         case Scores.B:
-          return 0;
+          return -.05f;
         case Scores.C:
-          return -.5f;
+          return -.1f;
         case Scores.F:
-          return -.10f;
+          return -.15f;
       }
 
       return 0;

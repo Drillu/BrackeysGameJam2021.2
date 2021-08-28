@@ -823,6 +823,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6893307301067557726, guid: 159c4ed3c2a89e8419a0bfe7bda99547, type: 3}
+      propertyPath: penguinRenderer
+      value: 
+      objectReference: {fileID: 1201246914}
     - target: {fileID: 7700118559708745360, guid: 159c4ed3c2a89e8419a0bfe7bda99547, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
