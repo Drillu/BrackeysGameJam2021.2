@@ -922,7 +922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6724644627697300570
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2567,6 +2567,10 @@ PrefabInstance:
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 6459110269796936592}
+    - target: {fileID: 2855036011441389852, guid: 1b0f531453c150d48891bbaf0c8f9b79, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7313781418847043143, guid: 1b0f531453c150d48891bbaf0c8f9b79, type: 3}
       propertyPath: m_Name
       value: Curtains
