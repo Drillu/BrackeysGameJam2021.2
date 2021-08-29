@@ -127,17 +127,17 @@ namespace Scores
       switch (score)
       {
         case Scores.SS:
-          return new Color(.9f, .26f, .85f); //Purple
+          return new Color(.71f, .58f, .80f); //Purple
         case Scores.S:
-          return new Color(.2f, .9f, .27f); //Green
+          return new Color(.58f, .80f, .79f); //Green
         case Scores.A:
-          return new Color(.38f, .38f, 1f); //Blue
+          return new Color(.46f, .81f, .48f); //Blue
         case Scores.B:
-          return new Color(.86f, .81f, .39f); //Yellow
+          return new Color(.83f, .82f, .82f); //Yellow
         case Scores.C:
-          return new Color(.88f, .60f, .25f); //Orange
+          return new Color(.81f, .71f, .45f); //Orange
         case Scores.F:
-          return new Color(.6f, .15f, .01f); //Red
+          return new Color(.81f, .525f, .401f); //Red
         default:
           return new Color(1, 1, 1); //White
       }
