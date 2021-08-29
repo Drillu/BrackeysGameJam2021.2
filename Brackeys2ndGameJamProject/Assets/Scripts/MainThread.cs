@@ -15,6 +15,7 @@ using UnityEngine.UI;
 using penguinRenderer;
 using audio;
 using tutorialBlockingEvent;
+using performanceBulbs;
 
 namespace Assets.Scenes
 {
@@ -43,9 +44,6 @@ namespace Assets.Scenes
     CurtainBlockingEvent curtainBlockingEvent = null;
 
     [SerializeField]
-    Slider performanceSlider = null;
-
-    [SerializeField]
     PenguinRenderer penguinRenderer = null;
 
     [SerializeField]
@@ -60,6 +58,9 @@ namespace Assets.Scenes
 
     [SerializeField]
     List<Banner> banners = new List<Banner>();
+
+    [SerializeField]
+    PerformanceBulbs performanceBulbs = null;
 
     private int totalPossibleScore = 0;
     private int currentScore = 0;
@@ -89,7 +90,7 @@ namespace Assets.Scenes
     public void ResetState()
     {
       scorePercentage = 1f;
-      performanceSlider.value = scorePercentage;
+      performanceBulbs.SetCurrentPerformancePercentage(scorePercentage);
       penguinRenderer.SetPenguin(0);
     }
     public IEnumerator StartGame()
@@ -374,7 +375,7 @@ namespace Assets.Scenes
       currentScore += score;
       totalPossibleScore += totalPossible;
       scorePercentage = Mathf.Clamp01(scorePercentage + performancePercentageChange);
-      performanceSlider.value = scorePercentage;
+      performanceBulbs.SetCurrentPerformancePercentage(scorePercentage);
     }
 
     public static float generateRandomTimeAmount(float minimumInSeconds, float maximumInSeconds)
