@@ -14,6 +14,7 @@ using bannerBlock;
 using UnityEngine.UI;
 using penguinRenderer;
 using audio;
+using tutorialBlockingEvent;
 
 namespace Assets.Scenes
 {
@@ -47,6 +48,9 @@ namespace Assets.Scenes
     [SerializeField]
     PenguinRenderer penguinRenderer = null;
 
+    [SerializeField]
+    TutorialBlockingEvent tutorialBlocker = null;
+
     [Serializable]
     private struct Banner
     {
@@ -77,8 +81,8 @@ namespace Assets.Scenes
     {
       audioManager = FindObjectOfType<AudioManager>();
       ResetState();
-      curtainBlockingEvent.instantiateCurtainEvent(true);
-      yield return curtainBlockingEvent.RunEvent();
+      // Run the tutorial on start
+      yield return tutorialBlocker.RunEvent();
       yield return StartGame();
     }
 
