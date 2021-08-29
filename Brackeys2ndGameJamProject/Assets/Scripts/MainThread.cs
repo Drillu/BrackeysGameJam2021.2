@@ -274,7 +274,7 @@ namespace Assets.Scenes
 
     private IEnumerator endOfGame()
     {
-      curtainBlockingEvent.instantiateCurtainEvent(false);
+      curtainBlockingEvent.instantiateCurtainEvent();
       yield return curtainBlockingEvent.RunEvent();
       yield return StartGame();
     }

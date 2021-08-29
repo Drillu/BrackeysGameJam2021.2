@@ -19,45 +19,24 @@ namespace blockingEvent
     [SerializeField]
     Animator animator = null;
 
-    [SerializeField]
-    TMP_Text buttonText = null;
-
-    [SerializeField]
-    GameObject tutorial = null;
-
-    [SerializeField]
-    GameObject gameEnd = null;
-
     private bool continued = false;
-    private bool isTutorial = false;
 
-    public void instantiateCurtainEvent(bool isTutorial)
+    public void instantiateCurtainEvent()
     {
-      this.isTutorial = isTutorial;
-      tutorial.SetActive(isTutorial);
-      gameEnd.SetActive(!isTutorial);
       continued = false;
     }
 
     public IEnumerator RunEvent()
     {
-      if (!isTutorial)
-      {
-        animator.SetTrigger(CloseParameter);
-
-      }
+      animator.SetTrigger(CloseParameter);
       while (!continued)
       {
         yield return null;
       }
+
       animator.SetTrigger(OpenParameter);
       FindObjectOfType<AudioManager>().PlayGameMusic();
-      if (!isTutorial)
-      {
-        FindObjectOfType<MainThread>().ResetState();
-      }
       yield return new WaitForSeconds(2f);
-
     }
 
     public void Event_Continue()

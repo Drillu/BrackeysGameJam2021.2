@@ -1,4 +1,5 @@
-﻿using blockingEvent;
+﻿using audio;
+using blockingEvent;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace tutorialBlockingEvent
         yield return null;
       }
 
+      FindObjectOfType<AudioManager>().PlayGameMusic();
       animator.SetTrigger(OpenParameter);
 
       yield return new WaitForSeconds(2f);

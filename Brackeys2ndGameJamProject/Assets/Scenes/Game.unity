@@ -791,6 +791,10 @@ PrefabInstance:
       propertyPath: penguinRenderer
       value: 
       objectReference: {fileID: 1201246914}
+    - target: {fileID: 1152494984468588804, guid: 159c4ed3c2a89e8419a0bfe7bda99547, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 53.29001
+      objectReference: {fileID: 0}
     - target: {fileID: 2015594354538333009, guid: 159c4ed3c2a89e8419a0bfe7bda99547, type: 3}
       propertyPath: level
       value: 4
@@ -801,18 +805,6 @@ PrefabInstance:
       objectReference: {fileID: 1201246914}
     - target: {fileID: 3251924379180233064, guid: 159c4ed3c2a89e8419a0bfe7bda99547, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6338897133182738452, guid: 159c4ed3c2a89e8419a0bfe7bda99547, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -2584012658698253602, guid: 32bfc67f70bbb9342be212bc8f930fab, type: 3}
-    - target: {fileID: 6338897133182738452, guid: 159c4ed3c2a89e8419a0bfe7bda99547, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6885092878958902374, guid: 159c4ed3c2a89e8419a0bfe7bda99547, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6893307300030985674, guid: 159c4ed3c2a89e8419a0bfe7bda99547, type: 3}
