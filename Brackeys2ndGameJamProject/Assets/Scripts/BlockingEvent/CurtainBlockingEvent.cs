@@ -37,7 +37,7 @@ namespace blockingEvent
 
       animator.SetTrigger(OpenParameter);
       FindObjectOfType<AudioManager>().PlayGameMusic();
-      FindObjectOfType<PerformanceBulbs>().SetCurrentPerformancePercentage(1);
+      FindObjectOfType<MainThread>().ResetState();
       yield return new WaitForSeconds(2f);
     }
 

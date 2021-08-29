@@ -15,6 +15,9 @@ namespace audio
     [SerializeField]
     AudioSource gameMusic = null;
 
+    [SerializeField]
+    AudioSource loopedGameMusic = null;
+
     private void Start()
     {
       DontDestroyOnLoad(this.gameObject);
@@ -24,11 +27,13 @@ namespace audio
     {
       menuMusic.Play();
       gameMusic.Stop();
+      loopedGameMusic.Stop();
     }
 
     public void PlayGameMusic()
     {
       gameMusic.Play();
+      loopedGameMusic.PlayDelayed(gameMusic.clip.length);
       menuMusic.Stop();
     }
   }
