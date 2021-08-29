@@ -104,16 +104,15 @@ namespace Assets.Scenes
       var keysScoreModifier = 1f;
       var buttonsScoreModifier = 1f;
       var spinnerScoreModifier = 4f;
-      var spinnerAmountNeeded = 2000f;
+      var spinnerAmountNeeded = 1000f;
 
       var level1StartTime = 0;
-      var level1Duration = 20;
+      var level1Duration = 10;
       var level1Keys = new List<string> {"a"};
 
       // Level 1 Slow keys with one type
       //yield return banners.First(banner => banner.level == 1).curtain.RunEvent();
       generateKeys(level1StartTime, level1Duration, 2f, keysScoreModifier, level1Keys);
-      generateButtons(level1StartTime, level1Duration, 1f, buttonsScoreModifier, 1.5f);
 
 
       yield return RunLevel();
@@ -123,7 +122,7 @@ namespace Assets.Scenes
         yield break;
       }
 
-      // Level 2 More keys and speeding up a bit!
+      // Level 2 More keys and the spinner!
       var level2StartTime = 0;
       var level2Duration = 20;
       var level2Keys = new List<string> { "a" , "s" };
@@ -131,6 +130,7 @@ namespace Assets.Scenes
       yield return banners.First(banner => banner.level == 2).curtain.RunEvent();
 
       generateKeys(level2StartTime, level2Duration, 1f, keysScoreModifier, level2Keys);
+      generateSpinners(level2StartTime, level2Duration, spinnerAmountNeeded, spinnerScoreModifier, 2f);
 
       yield return RunLevel();
       if (!levelResult)
