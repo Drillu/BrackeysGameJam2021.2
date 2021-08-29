@@ -93,6 +93,7 @@ namespace Assets.Scenes
       FindObjectOfType<Crowd>().SetCrowdReaction(Scores.Scores.F);
       performanceBulbs.SetCurrentPerformancePercentage(scorePercentage);
       penguinRenderer.SetPenguin(0);
+      actionQueue.Clear();
       currentScore = 0;
       totalPossibleScore = 0;
     }
