@@ -33,7 +33,13 @@ namespace timedButton
     TMP_Text scoreValue = null;
 
     [SerializeField]
-    FadeOnCommand fadeOnCommand = null;  
+    FadeOnCommand fadeOnCommand = null;
+
+    [SerializeField]
+    protected AudioSource flipSound = null;
+
+    [SerializeField]
+    protected AudioSource missSound = null;
 
     private string key = "";
     private float targetTime = 0f;
@@ -61,8 +67,14 @@ namespace timedButton
 
       if (Input.GetKeyDown(key))
       {
+        flipSound.Play();
         resolved = true;
       }
+    }
+
+    protected override void missed()
+    {
+      missSound.Play();
     }
 
     protected override void updateTimerVisuals(float timeElapsed)

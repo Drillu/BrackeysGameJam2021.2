@@ -13,6 +13,7 @@ using timedClick;
 using bannerBlock;
 using UnityEngine.UI;
 using penguinRenderer;
+using audio;
 
 namespace Assets.Scenes
 {
@@ -70,8 +71,11 @@ namespace Assets.Scenes
 
     float scorePercentage;
 
+    AudioManager audioManager;
+
     public IEnumerator Start()
     {
+      audioManager = FindObjectOfType<AudioManager>();
       ResetState();
       curtainBlockingEvent.instantiateCurtainEvent(true);
       yield return curtainBlockingEvent.RunEvent();
@@ -104,6 +108,7 @@ namespace Assets.Scenes
       // Level 1 Slow keys with one type
       //yield return banners.First(banner => banner.level == 1).curtain.RunEvent();
       generateKeys(level1StartTime, level1Duration, 2f, keysScoreModifier, level1Keys);
+      generateButtons(level1StartTime, level1Duration, 1f, buttonsScoreModifier, 1.5f);
 
 
       yield return RunLevel();
@@ -259,6 +264,7 @@ namespace Assets.Scenes
     
     private void runEndOfGameFlow()
     {
+      audioManager.PlayMenuMusic();
       StartCoroutine(endOfGame());
     }
 

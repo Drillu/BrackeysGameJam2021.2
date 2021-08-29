@@ -44,6 +44,7 @@ namespace timedEvent
     }
 
     protected abstract void updateTimerVisuals(float timeElapsed);
+    protected virtual void missed() { }
 
     public virtual IEnumerator tickDown()
     {
@@ -54,6 +55,10 @@ namespace timedEvent
         yield return null;
       }
       updateTimerVisuals(timeElapsed);
+      if (timeElapsed >= maxDuration)
+      {
+        missed();
+      }
 
       resolved = true;
     }

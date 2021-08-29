@@ -15,6 +15,7 @@ namespace timedClick
     {
       if (started)
       {
+        flipSound.Play();
         Resolve();
       }
     }

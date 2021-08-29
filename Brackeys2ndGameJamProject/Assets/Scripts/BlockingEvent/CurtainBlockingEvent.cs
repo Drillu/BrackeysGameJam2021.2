@@ -1,4 +1,5 @@
 ﻿using Assets.Scenes;
+using audio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace blockingEvent
         yield return null;
       }
       animator.SetTrigger(OpenParameter);
+      FindObjectOfType<AudioManager>().PlayGameMusic();
       if (!isTutorial)
       {
         FindObjectOfType<MainThread>().ResetState();

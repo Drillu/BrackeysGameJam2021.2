@@ -37,7 +37,6 @@ namespace timedSpinner
     [SerializeField]
     Animator animator = null;
 
-
     Vector2 previousMousePosition;
 
     float completionRotationAmount = 720f;
