@@ -20,10 +20,16 @@ namespace blockingEvent
     [SerializeField]
     Animator animator = null;
 
-    private bool continued = false;
+    [SerializeField]
+    TMP_Text scoreText = null;
 
-    public void instantiateCurtainEvent()
+    private bool continued = false;
+    private float score = 0f;
+
+    public void instantiateCurtainEvent(float score)
     {
+      this.score = score;
+      scoreText.text = score.ToString();
       continued = false;
     }
 
@@ -38,7 +44,7 @@ namespace blockingEvent
       animator.SetTrigger(OpenParameter);
       FindObjectOfType<AudioManager>().PlayGameMusic();
       FindObjectOfType<MainThread>().ResetState();
-      yield return new WaitForSeconds(2f);
+      yield return new WaitForSeconds(3f);
     }
 
     public void Event_Continue()

@@ -283,7 +283,7 @@ namespace Assets.Scenes
       var endScoreRanking = Scores.ScoreHelpers.ScoreToEndingScore(currentScore);
       FindObjectOfType<Crowd>().SetCrowdReaction(endScoreRanking);
       yield return new WaitForSeconds(2f);
-      curtainBlockingEvent.instantiateCurtainEvent();
+      curtainBlockingEvent.instantiateCurtainEvent(currentScore);
       yield return curtainBlockingEvent.RunEvent();
       yield return StartGame();
     }
