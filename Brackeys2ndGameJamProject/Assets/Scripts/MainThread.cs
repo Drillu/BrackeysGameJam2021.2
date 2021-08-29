@@ -97,6 +97,7 @@ namespace Assets.Scenes
       currentScore = 0;
       totalPossibleScore = 0;
     }
+
     public IEnumerator StartGame()
     {
       ResetState();
