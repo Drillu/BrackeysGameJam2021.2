@@ -9,26 +9,21 @@ namespace Assets.Scenes
 {
   public class Crowd : MonoBehaviour
   {
-    [SerializeField]
-    Animator crowdAnimator;
-
-    MainThread mainThread = null;
-    int cachedVersion = -1;
-
-    public void Start()
+    [Serializable]
+    private struct CrowdReactions
     {
-      // FindObjectOfType is horrible performance wise and this would normally be handled by some
-      // singleton management system but.. game jam so :shrug:
-      mainThread = FindObjectOfType<MainThread>();
-      cachedVersion = mainThread.ScoreVersion;
+      public Scores.Scores score;
+      public GameObject gameObject;
     }
 
-    public void Update()
+    [SerializeField]
+    List<CrowdReactions> reactions = new List<CrowdReactions>();
+
+    public void SetCrowdReaction(Scores.Scores score)
     {
-      if (mainThread.ScoreVersion != cachedVersion)
+      foreach (var reaction in reactions)
       {
-        // Set it to something here, not sure what the states will be but 
-        //crowdAnimator.SetFloat()
+        reaction.gameObject.SetActive(score == reaction.score);
       }
     }
   }

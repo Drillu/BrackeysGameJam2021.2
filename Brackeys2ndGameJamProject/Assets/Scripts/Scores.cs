@@ -57,6 +57,28 @@ namespace Scores
       return 0;
     }
 
+    public static Scores ScoreToEndingScore(float score)
+    {
+      switch (score)
+      {
+        case var s when s > 40000:
+          return Scores.SS;
+        case var s when s > 30000:
+          return Scores.S;
+        case var s when s > 20000:
+          return Scores.A;
+        case var s when s > 10000:
+          return Scores.B;
+        case var s when s > 1000:
+          return Scores.C;
+        default:
+          return Scores.C;
+      }
+
+      Debug.LogWarning("No valid score int found!");
+      return 0;
+    }
+
     public static string ScoreToString(Scores score)
     {
       switch (score)
@@ -141,7 +163,6 @@ namespace Scores
         default:
           return new Color(1, 1, 1); //White
       }
-
     }
   }
 }

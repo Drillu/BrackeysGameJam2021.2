@@ -90,8 +90,11 @@ namespace Assets.Scenes
     public void ResetState()
     {
       scorePercentage = 1f;
+      FindObjectOfType<Crowd>().SetCrowdReaction(Scores.Scores.F);
       performanceBulbs.SetCurrentPerformancePercentage(scorePercentage);
       penguinRenderer.SetPenguin(0);
+      currentScore = 0;
+      totalPossibleScore = 0;
     }
     public IEnumerator StartGame()
     {
@@ -275,6 +278,9 @@ namespace Assets.Scenes
 
     private IEnumerator endOfGame()
     {
+      var endScoreRanking = Scores.ScoreHelpers.ScoreToEndingScore(currentScore);
+      FindObjectOfType<Crowd>().SetCrowdReaction(endScoreRanking);
+      yield return new WaitForSeconds(2f);
       curtainBlockingEvent.instantiateCurtainEvent();
       yield return curtainBlockingEvent.RunEvent();
       yield return StartGame();
@@ -376,6 +382,7 @@ namespace Assets.Scenes
       totalPossibleScore += totalPossible;
       scorePercentage = Mathf.Clamp01(scorePercentage + performancePercentageChange);
       performanceBulbs.SetCurrentPerformancePercentage(scorePercentage);
+      Debug.Log(currentScore);
     }
 
     public static float generateRandomTimeAmount(float minimumInSeconds, float maximumInSeconds)
